@@ -13,12 +13,13 @@ export async function addPlayer(player) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            name: player.name,
-            time: player.time
+            name: player,
+            listTime: []
         })
     });
     console.log("player added:");
-    return response;
+    const result = await response.json();
+    return result.user;
 }
 
 export async function updatePlayer(player) {
@@ -38,4 +39,20 @@ export async function deletePlayer() {
     });
     const result = await response.json();
     console.log("riddle deleted:", result);
+}
+
+export async function getPlayerById(id) {
+    try {
+        const response = await fetch(`http://localhost:3000/users/getUserById`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id })
+        });
+        console.log('response get user by id', response);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log('error get player by id', error);
+        return null;
+    }
 }

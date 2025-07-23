@@ -1,9 +1,8 @@
-import { getall, update, create } from "../dal/dalPlayer.js";
+import { getall, update, create, getById } from "../dal/dalPlayer.js";
 
 async function getAllUsers(req, res) {
   try {
     const allUsers = await getall();
-    
     console.log('alllUsser', allUsers);
     await res.json(allUsers);
   }
@@ -15,9 +14,8 @@ async function getAllUsers(req, res) {
 
 async function addUsers(req, res) {
   const data = req.body;
-  await create(data);
-  res.status(201).send({ message: "User added" });
-
+  const user = await create(data);
+  res.status(201).send({ message: "User added", user });
 }
 
 async function updateUsers(req, res) {
@@ -33,9 +31,20 @@ async function deleteUsers(req, res) {
   res.status(200).send({ message: "User deleted" });
 }
 
+async function getUserById(req, res) {
+  const { id } = req.body;
+  const user = await getById(id);
+  if (user) {
+    res.status(200).send(user);
+  } else {
+    res.status(404).send({ message: "User not found" });
+  }
+}
+
 export {
   getAllUsers,
   addUsers,
   updateUsers,
-  deleteUsers
+  deleteUsers,
+  getUserById
 }

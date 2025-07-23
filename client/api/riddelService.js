@@ -3,8 +3,9 @@ import Riddle from "../classes/Riddle.js";
 import rl from "readline-sync";
 
 export async function AllRiddles() {
-try {
+    try {
         const response = await fetch("http://localhost:3000/riddles/allriddles");
+        // console.log('response', response);        
         const data = await response.json();
         const arr = [];
         for (const element of data) {
@@ -20,13 +21,11 @@ try {
             riddle.displaysTheRiddle();
             riddle.ask();
         }
-} catch (error) {
-    console.log('error all riddels',error );
-    
-    
-}
-}
+    } catch (error) {
+        console.log('error all riddels', error);
 
+    }
+}
 export async function addRiddle() {
     let response;
     try {
