@@ -1,11 +1,13 @@
 import rl from "readline-sync";
+import Player from "../../classes/Player.js";
 
-export function nameUsers() {
+export function userName() {
     const name = rl.question("Enter your name: ");
-    if (name.trim() === "") {
-        console.log("Name cannot be empty. Please try again.");
-        return nameUsers(); 
+    const password = rl.question("Enter your password:  ")
+    if (name.trim() === "" || password.trim() === "") {
+        console.log("Name or password cannot be empty. Please try again.");
+        return nameUsers();
     }
-    console.log(`Welcome, ${name}!`);
-    return name;
+    const player = new Player(name, password)
+    return player;
 }

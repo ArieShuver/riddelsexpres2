@@ -1,9 +1,9 @@
 
 class Player {
-    constructor(name,id) {
+    constructor(name, password) {
         this.name = name;
         this.time = 0;
-        this.id = id;
+        this.password = password;
     }
 
     timeEnded(start, end) {

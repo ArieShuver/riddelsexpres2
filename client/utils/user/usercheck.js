@@ -6,10 +6,10 @@ async function userCheck(name) {
     const user = users.find(user => user.name === name);
     if (user) {
         console.log("User exists");
-        const player = new Player(user.name, user.id);
+        const player = new Player(user.name, user.id, user.password);
         return player;
     } else {
-        console.log("User not found");
+        console.log("User not found");        
         const newUser = await addPlayer(name);
         const player = new Player(newUser[0].name, newUser[0].id);
         return player;
@@ -23,7 +23,7 @@ async function changeUser(player) {
             console.log("User not found");
             return;
         }
-        console.log('user before change:', user);
+        // console.log('user before change:', user);
         user.listTime.push(player.time);
         await updatePlayer(user);
         console.log("User updated successfully:", user);

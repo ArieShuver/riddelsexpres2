@@ -1,4 +1,3 @@
-import { deleteRiddle } from "../../client/api/riddelService.js";
 import { connect } from "../db/dbMongo.js";
 import { ObjectId } from "mongodb";
 
@@ -10,16 +9,18 @@ export async function getAll() {
 }
 
 export async function update(riddle) {
-    const db = await connect();
-    const collection = db.collection("riddles");
-    const result = await collection.updateOne(
-        { _id: new ObjectId(riddle._id) },
-        { $set: riddle }
-    );
-    if (result.modifiedCount === 0) {
-        console.error("No riddle was updated");
+    try {
+        const db = await connect();
+        const collection = db.collection("riddles");
+        const result = await collection.updateOne(
+            { _id: new ObjectId(riddle._id) },
+            { $set: riddle }
+        );
+    } catch (error) {
+        console.error("Error updating riddle:", error);
         return null;
     }
+
 }
 
 export async function add(riddle) {
@@ -30,13 +31,13 @@ export async function add(riddle) {
         console.error("Failed to add riddle");
         return null;
     }
-    return result; 
+    return result;
 }
 
 export async function deleteOne(id) {
     const db = await connect();
     const collection = await db.collection("riddles");
     await collection.deleteOne({ _id: new ObjectId(id) });
-    console.log("Riddle deleted successfully"); 
+    console.log("Riddle deleted successfully");
     return { message: "Riddle deleted successfully" };
 }
