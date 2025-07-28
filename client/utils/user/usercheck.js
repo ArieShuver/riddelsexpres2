@@ -1,4 +1,4 @@
-import { allPlayer, addPlayer, updatePlayer, getPlayerById } from "../../api/playerService.js";
+import { allPlayer, addPlayer, updatePlayer, getPlayerByName } from "../../api/playerService.js";
 import Player from "../../classes/Player.js";
 
 async function userCheck(name) {
@@ -17,14 +17,16 @@ async function userCheck(name) {
 }
 
 async function changeUser(player) {
-    const user = await getPlayerById(player.id);
+    const user = await getPlayerByName(player.name);
+    console.log('user from change user',user);    
     try {
         if (!user) {
             console.log("User not found");
             return;
         }
-        // console.log('user before change:', user);
+        console.log('user before change:', user);
         user.listTime.push(player.time);
+        user.ThebestTime = thebestTime(user.listTime);
         await updatePlayer(user);
         console.log("User updated successfully:", user);
     } catch (error) {

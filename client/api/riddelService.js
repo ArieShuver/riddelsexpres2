@@ -35,11 +35,15 @@ export async function addRiddle() {
         const newRiddle = { name, ask, answer };
         response = await fetch("http://localhost:3000/riddles/addRiddle", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
             body: JSON.stringify(newRiddle)
         });
+        const result = await response.json();
         console.log("riddle added:", result);
-        return await response.json();
+        return result;
     }
     catch (error) {
         console.log('reror add riddel', error);
@@ -53,18 +57,24 @@ export async function updateRiddle() {
     const updated = { name, ask, answer };
     const response = await fetch("http://localhost:3000/riddles/updateRiddle", {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${global.token}`,
+        },
         body: JSON.stringify(updated),
     });
     const result = await response.json();
     console.log("Riddle updated:", result);
 }
 
-export async function deleteRiddle() {
+export async function deleteRiddle() {   
     const id = parseInt(rl.question("Enter ID of riddle to delete: "));
     const response = await fetch("http://localhost:3000/riddles/deleteRiddle", {
         method: "DELETE",
-        headers: { "content-Type": "application/json" },
+        headers: {
+            "content-Type": "application/json",
+            "Authorization": `Bearer ${global.token}`,
+        },
         body: JSON.stringify({ "id": id }),
     });
     const result = await response.json();

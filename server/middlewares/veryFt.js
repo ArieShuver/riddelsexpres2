@@ -3,8 +3,8 @@ import { config } from "dotenv";
 
 config();
 
-export function verify(req, res) {
-    const token = req.headers.token;
+export function extractToken(req, res) {
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
         res.status(400).json({ message: "not token" });
         return;
@@ -13,7 +13,7 @@ export function verify(req, res) {
 }
 
 export function veryfyToken(req, res, next) {
-    const token = verify(req, res)
+    const token = extractToken(req, res)
     if (!token) {
         res.status(400).json({ message: "not token" });
         return;
@@ -22,17 +22,17 @@ export function veryfyToken(req, res, next) {
         if (err) {
             return res.status(403).json({ message: "Token is not valid" });
         }
-        req.headers.role = token.role;
+        req.token = token;
         next();
     });
 }
 
 export function chacAdmin(req, res, next) {
-    return (req, res, next) => {
-        if (req.headers.role !== "admin") {
-            return res.status(403).json({ message: "You are not admin" });
-        }
-        next();
+    if (!req.user || req.user.role !== "admin") {
+        console.log('not admin');
+        return res.status(403).json({ message: "You are not admin" });
     }
+    next();
 }
+
 

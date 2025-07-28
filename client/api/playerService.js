@@ -41,12 +41,15 @@ export async function deletePlayer() {
     console.log("riddle deleted:", result);
 }
 
-export async function getPlayerById(id) {
+export async function getPlayerByName(name) {
     try {
-        const response = await fetch(`http://localhost:3000/users/getUserById`, {
+        const response = await fetch(`http://localhost:3000/users/getUserByName`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id })
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${global.token}`
+            },
+            body: JSON.stringify({ name })
         });
         // console.log('response get user by id', response);
         const data = await response.json();
@@ -65,6 +68,7 @@ export async function chakUser(user) {
             body: JSON.stringify(user)
         })
         const data = await response.json();
+        global.token = response.token;
         console.log('data chakuser', data);
         return data;
     } catch (error) {

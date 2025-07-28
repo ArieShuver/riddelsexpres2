@@ -11,5 +11,4 @@ router.put("/updateRiddle", veryfyToken, chacAdmin, updateRiddles)
 
 router.delete("/deleteRiddle", veryfyToken, chacAdmin, deleteRiddles)
 
-
 export default router;

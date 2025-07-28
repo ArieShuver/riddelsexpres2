@@ -17,7 +17,6 @@ export async function start() {
 3. for new user `);
 
     const select = rl.question("----enter your choice.---- ")
-    let user;
     let player;
     switch (select) {
         case "1":
@@ -26,16 +25,14 @@ export async function start() {
         case "2":
             player = userName()
             const response = await chakUser(player);
-            console.log(response);
             const { role } = jwt.decode(response.token);
-            console.log('rol in menu', role);
             if (role === "user") {
-                menuUser(player);
+                menuUser(player, response.token);
             }
             else if (role === "admin")
-                menuAdmin(player);
-            else{
-                console.log('you are not registered user');            
+                menuAdmin(player, response.token);
+            else {
+                console.log('you are not registered user');
             }
             break;
         case "3":
@@ -45,9 +42,6 @@ export async function start() {
             break;
     }
 }
-
-
-
 
 export async function startMenu(player) {
     while (true) {

@@ -25,8 +25,8 @@ async function addUsers(req, res) {
 
 async function updateUsers(req, res) {
   const data = req.body;
-  console.log('data:', data);
-  await update(data.name, data);
+  console.log('data from uptedUser:', data);
+  await update(data);
   res.status(200).send({ message: "User updated" });
 }
 
@@ -37,8 +37,8 @@ async function deleteUsers(req, res) {
 }
 
 async function getUserName(req, res) {
-  const { id } = req.body;
-  const user = await getByName(id);
+  const { name } = req.body;
+  const user = await getByName(name);
   if (user) {
     res.status(200).send(user);
   } else {

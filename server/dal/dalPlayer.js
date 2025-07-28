@@ -24,8 +24,8 @@ export async function update(user) {
   try {
     const { data, error } = await supabase
       .from("players")
-      .update([{ listTime: user.listTime }])
-      .match({ id: user.id });
+      .update([{ listTime: user.listTime, ThebestTime: user.ThebestTime }])
+      .match({ name: user.name });
     if (error) {
       console.error("Error updating player:", error.message);
       return null;
@@ -39,13 +39,13 @@ export async function update(user) {
 export async function create(user) {
   console.log('user crate ', user);
   const name = user.player.name;
-  const password = await bcrypt.hash(user.player.password,10)
+  const password = await bcrypt.hash(user.player.password, 10)
   const { data, error } = await supabase
     .from("players")
     .insert({
-      name, 
+      name,
       password,
-      listTime:[]
+      listTime: []
     })
     .select("*");
   if (error) {

@@ -3,8 +3,9 @@ import readlineSync from "readline-sync";
 import Player from "../classes/Player.js";
 import { AllRiddles, addRiddle, updateRiddle, deleteRiddle } from "../api/riddelService.js";
 import timer from "./timer.js";
+import { changeUser } from "./user/usercheck.js";
 
-export async function menuUser(player) {
+export async function menuUser(player, token) {
   while (true) {
     console.log("\n=== User Menu ===");
     console.log("1. Add a riddle");
@@ -14,10 +15,11 @@ export async function menuUser(player) {
     const choice = rl.question("Choose an option (1-5): ");
     switch (choice) {
       case "1":
-        await addRiddle();
+        await addRiddle(token);
         break;
       case "2":
         await timer(AllRiddles, player);
+        await changeUser(player, token)
         break;
       case "3":
         console.log("Bye!");
@@ -28,7 +30,7 @@ export async function menuUser(player) {
   }
 }
 
-export async function menuAdmin(player) {
+export async function menuAdmin(player,token) {
   while (true) {
     console.log("\n=== Admin Menu ===");
     console.log("1. Add a riddle");
@@ -40,13 +42,13 @@ export async function menuAdmin(player) {
     const choice = rl.question("Choose an option (1-5): ");
     switch (choice) {
       case "1":
-        addRiddle();
+        await addRiddle();
         break;
       case "2":
-        updateRiddle();
+       await updateRiddle();
         break;
       case "3":
-        deleteRiddle();
+       await deleteRiddle();
         break;
       case "4":
         await timer(AllRiddles, player);
